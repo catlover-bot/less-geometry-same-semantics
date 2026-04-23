@@ -1,0 +1,32 @@
+{
+  "predictions": [
+    {
+      "scene_id": "41069021",
+      "detections": [
+        {
+          "label": "chair",
+          "center": [0.1, 0.0, 0.45],
+          "size": [0.5, 0.5, 0.9],
+          "score": 0.94
+        },
+        {
+          "label": "table",
+          "center": [0.8, 0.0, 0.42],
+          "size": [1.1, 0.8, 0.75],
+          "score": 0.91
+        }
+      ]
+    },
+    {
+      "scene_id": "41069025",
+      "detections": [
+        {
+          "label": "cabinet",
+          "center": [0.3, 0.4, 0.9],
+          "size": [1.0, 0.6, 1.8],
+          "score": 0.88
+        }
+      ]
+    }
+  ]
+}

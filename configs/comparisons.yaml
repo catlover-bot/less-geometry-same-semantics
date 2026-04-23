@@ -1,0 +1,183 @@
+# Fair comparison layer for the lightweight robustness study.
+#
+# The main paper story remains lightweight 3D semantic understanding under
+# aggressive degradation. Heavy baselines and task-mismatched LLM baselines are
+# included as honest comparison hooks, not as the primary framing.
+
+baselines:
+  lightweight_structured:
+    label: LGS lightweight structured
+    group: main
+    family: lightweight
+    kind: internal_model
+    reference_url: local://less-geometry-same-semantics
+    notes: Native lightweight structured baseline from this repository.
+    config_overrides:
+      model:
+        graph_mode: simple_graph
+        constrained_decoding: true
+        adaptation_enabled: false
+    task_alignment:
+      status: native
+      notes: Native coarse semantic JSON output with the repo's default lightweight configuration.
+    scenarios:
+      clean:
+        overrides:
+          data:
+            corruption:
+              preset: clean
+      severe_corruption:
+        overrides:
+          data:
+            corruption:
+              preset: severe_corruption
+
+  lightweight_input_denoising:
+    label: LGS input denoising adaptation
+    group: main
+    family: robustness
+    kind: internal_model
+    reference_url: https://openreview.net/forum?id=Ur6drICagj
+    notes: Lightweight deterministic test-time input adaptation baseline inspired by CloudFixer-style robustness comparisons.
+    config_overrides:
+      model:
+        graph_mode: simple_graph
+        constrained_decoding: true
+        adaptation_enabled: true
+        adaptation_mode: denoise
+    task_alignment:
+      status: partial
+      notes: Lightweight denoising/normalization baseline for robustness comparison; not a faithful CloudFixer reproduction.
+    scenarios:
+      severe_corruption:
+        overrides:
+          data:
+            corruption:
+              preset: severe_corruption
+      extreme_compression:
+        overrides:
+          data:
+            corruption:
+              preset: extreme_compression
+
+  votenet_import:
+    label: VoteNet imported detections
+    group: main
+    family: standard_3d
+    kind: imported_detector
+    reference_url: https://github.com/facebookresearch/votenet
+    json_validity_mode: converted
+    notes: Standard non-LLM 3D detection baseline evaluated after converting 3D detections into the shared coarse semantic JSON space.
+    task_alignment:
+      status: partial
+      json_mode: converted
+      relations_mode: derived
+      scene_type_mode: derived
+      notes: Native outputs are 3D detections only. Relations and scene type are derived with the repo's coarse box heuristics.
+    scenarios:
+      clean:
+        prediction_path: outputs/external_baselines/votenet/clean_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: clean
+      severe_corruption:
+        prediction_path: outputs/external_baselines/votenet/severe_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: severe_corruption
+
+  spatiallm_import:
+    label: SpatialLM imported structured outputs
+    group: main
+    family: heavy_upper_bound
+    kind: imported_structured
+    reference_url: https://github.com/manycore-research/SpatialLM
+    json_validity_mode: converted
+    notes: Heavy upper-bound comparison path. Full in-repo integration is intentionally out of scope; evaluate exported scene-level structured outputs instead.
+    task_alignment:
+      status: partial
+      json_mode: converted
+      relations_mode: mapped
+      scene_type_mode: mapped
+      notes: Treat as a heavy upper-bound only after its outputs are mapped into the shared semantic schema.
+    scenarios:
+      clean:
+        prediction_path: outputs/external_baselines/spatiallm/clean_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: clean
+      severe_corruption:
+        prediction_path: outputs/external_baselines/spatiallm/severe_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: severe_corruption
+
+  3dgraphllm_import:
+    label: 3DGraphLLM imported outputs
+    group: supplementary
+    family: llm_supplementary
+    kind: imported_structured
+    reference_url: https://github.com/cognitiveaisystems/3dgraphllm
+    json_validity_mode: converted
+    notes: Supplementary only because the native task framing is broader than this benchmark's coarse semantic JSON.
+    task_alignment:
+      status: supplementary
+      json_mode: converted
+      relations_mode: mapped
+      scene_type_mode: mapped
+      notes: Use only after manual or scripted mapping into the benchmark's shared structured target space.
+    scenarios:
+      clean:
+        prediction_path: outputs/external_baselines/3dgraphllm/clean_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: clean
+
+  minigpt3d_import:
+    label: MiniGPT-3D imported outputs
+    group: supplementary
+    family: llm_supplementary
+    kind: imported_structured
+    reference_url: https://github.com/TangYuan96/MiniGPT-3D
+    json_validity_mode: converted
+    notes: Supplementary only because the native task alignment is captioning/QA-oriented rather than coarse structured scene semantics.
+    task_alignment:
+      status: supplementary
+      json_mode: converted
+      relations_mode: mapped
+      scene_type_mode: mapped
+      notes: Requires exported outputs mapped into the benchmark schema.
+    scenarios:
+      clean:
+        prediction_path: outputs/external_baselines/minigpt3d/clean_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: clean
+
+  pointllm_import:
+    label: PointLLM imported outputs
+    group: supplementary
+    family: llm_supplementary
+    kind: imported_structured
+    reference_url: https://github.com/InternRobotics/PointLLM
+    json_validity_mode: converted
+    notes: Supplementary only because the native tasks focus on open-ended point-cloud language understanding rather than this benchmark's coarse semantic JSON.
+    task_alignment:
+      status: supplementary
+      json_mode: converted
+      relations_mode: mapped
+      scene_type_mode: mapped
+      notes: Requires exported outputs mapped into the benchmark schema.
+    scenarios:
+      clean:
+        prediction_path: outputs/external_baselines/pointllm/clean_predictions.json
+        overrides:
+          data:
+            corruption:
+              preset: clean

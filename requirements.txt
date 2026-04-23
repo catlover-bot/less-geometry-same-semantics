@@ -1,0 +1,9 @@
+torch>=2.0
+numpy>=1.24
+PyYAML>=6.0
+jsonschema>=4.19
+matplotlib>=3.8
+pandas>=2.0
+plyfile>=1.0
+psutil>=5.9
+pytest>=7.4

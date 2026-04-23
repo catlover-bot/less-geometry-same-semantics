@@ -1,0 +1,62 @@
+# Alias plan kept for explicit ARKitScenes paper runs.
+# The default configs/paper_plan.yaml is also ARKitScenes-first.
+paper:
+  title: "Less Geometry, Same Semantics"
+  claim_scope: "Semantics-preserving 3D scene understanding under aggressive degradation"
+  output_dir: outputs/paper_package
+
+datasets:
+  primary:
+    name: arkitscenes
+    role: main_real_world_benchmark
+    config: configs/arkitscenes.yaml
+
+runs:
+  seeds: [7, 13, 29]
+  epochs: 1
+  smoke_max_cases: null
+
+main_benchmark:
+  output: primary_main/results.json
+  artifacts_dir: primary_main
+  expected_conditions:
+    corruption: [clean, severe_corruption]
+    point_budget: [raw, compressed]
+    graph: [no_graph, simple_graph]
+    constrained: [false, true]
+    adaptation: [none, input_normalization]
+
+severity_benchmark:
+  output: primary_severity/results.json
+  artifacts_dir: primary_severity
+  expected_presets:
+    - clean
+    - mild_corruption
+    - medium_corruption
+    - severe_corruption
+    - extreme_compression
+
+ablations:
+  output: primary_ablations/results.json
+  artifacts_dir: primary_ablations
+  expected_groups:
+    - graph_no_graph
+    - graph_simple_graph
+    - graph_richer_graph
+    - graph_graph_with_relation_dropout
+    - graph_graph_with_noisy_edges
+    - compressed_input
+    - raw_input
+    - constrained_output
+    - unconstrained_output
+
+supplementary:
+  enabled: false
+
+paper_artifacts:
+  figures_dir: figures
+  tables_dir: tables
+  claims_dir: claims
+  audit_dir: audit
+  support_dir: paper_support
+

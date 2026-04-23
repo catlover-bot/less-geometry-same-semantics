@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/less-geometry-same-semantics/semantic_output.schema.json",
+  "title": "StructuredSemanticOutput",
+  "description": "Benchmark output for task-relevant semantics under point-cloud degradation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["objects", "object_counts", "attributes", "relations", "scene_type"],
+  "properties": {
+    "objects": {
+      "title": "DetectedObjects",
+      "description": "Unique object categories with predicted counts and optional coarse attributes.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/object_record"},
+      "uniqueItems": true
+    },
+    "object_counts": {
+      "title": "ObjectCounts",
+      "description": "Category-to-count map. Missing categories are scored as zero.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chair": {"type": "integer", "minimum": 0},
+        "table": {"type": "integer", "minimum": 0},
+        "sofa": {"type": "integer", "minimum": 0},
+        "lamp": {"type": "integer", "minimum": 0},
+        "plant": {"type": "integer", "minimum": 0},
+        "cabinet": {"type": "integer", "minimum": 0}
+      }
+    },
+    "attributes": {
+      "title": "CoarseAttributes",
+      "type": "array",
+      "items": {"$ref": "#/$defs/attribute"},
+      "uniqueItems": true
+    },
+    "relations": {
+      "title": "CoarseSpatialRelations",
+      "description": "Coarse relation triples between object categories.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/relation"}
+    },
+    "scene_type": {"$ref": "#/$defs/scene_type"},
+    "caption": {
+      "description": "Optional short caption used only for text-output comparisons.",
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "object_category": {
+      "type": "string",
+      "enum": ["chair", "table", "sofa", "lamp", "plant", "cabinet"]
+    },
+    "attribute": {
+      "type": "string",
+      "enum": ["small", "large", "tall", "flat", "round", "sparse"]
+    },
+    "relation_predicate": {
+      "type": "string",
+      "enum": ["left_of", "right_of", "in_front_of", "behind", "near", "above", "below", "overlapping"]
+    },
+    "scene_type": {
+      "type": "string",
+      "enum": ["room", "office", "living_room", "storage"]
+    },
+    "object_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "count", "attributes"],
+      "properties": {
+        "category": {"$ref": "#/$defs/object_category"},
+        "count": {"type": "integer", "minimum": 1},
+        "attributes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/attribute"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject", "predicate", "object"],
+      "properties": {
+        "subject": {"$ref": "#/$defs/object_category"},
+        "predicate": {"$ref": "#/$defs/relation_predicate"},
+        "object": {"$ref": "#/$defs/object_category"}
+      }
+    }
+  }
+}

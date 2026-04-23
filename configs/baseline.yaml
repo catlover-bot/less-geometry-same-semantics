@@ -1,0 +1,143 @@
+seed: 7
+
+benchmark:
+  name: synthetic_semantic_degradation
+  claim: "Preserve task-relevant semantics under aggressive degradation."
+  seeds: [7, 13, 29]
+  severity_presets:
+    - clean
+    - mild_corruption
+    - medium_corruption
+    - severe_corruption
+    - extreme_compression
+  presets:
+    clean:
+      corruption:
+        preset: clean
+        geometry_degradation: {enabled: false, severity: none}
+        coordinate_perturbation: {enabled: false, severity: none}
+        local_structural_corruption: {enabled: false, severity: none}
+        token_point_compression: {enabled: false, severity: none}
+    mild_corruption:
+      corruption:
+        preset: mild_corruption
+        geometry_degradation: {enabled: true, severity: mild}
+        coordinate_perturbation: {enabled: true, severity: mild}
+        local_structural_corruption: {enabled: false, severity: none}
+        token_point_compression: {enabled: true, severity: mild}
+    medium_corruption:
+      corruption:
+        preset: medium_corruption
+        geometry_degradation: {enabled: true, severity: medium}
+        coordinate_perturbation: {enabled: true, severity: medium}
+        local_structural_corruption: {enabled: true, severity: medium}
+        token_point_compression: {enabled: true, severity: medium}
+    severe_corruption:
+      corruption:
+        preset: severe_corruption
+        geometry_degradation: {enabled: true, severity: severe}
+        coordinate_perturbation: {enabled: true, severity: severe}
+        local_structural_corruption: {enabled: true, severity: severe}
+        token_point_compression: {enabled: true, severity: severe}
+    extreme_compression:
+      corruption:
+        preset: extreme_compression
+        geometry_degradation: {enabled: true, severity: medium}
+        coordinate_perturbation: {enabled: true, severity: severe}
+        local_structural_corruption: {enabled: true, severity: severe}
+        token_point_compression:
+          enabled: true
+          severity: extreme
+          density_fraction: 0.08
+          random_dropout_prob: 0.55
+
+data:
+  train_samples: 256
+  val_samples: 64
+  num_points: 512
+  synthetic:
+    min_instances: 2
+    max_instances: 5
+    allow_repeated_categories: true
+    scene_extent: 1.0
+    max_relations: 8
+  batch_size: 16
+  num_workers: 0
+  corruption:
+    preset: medium_corruption
+    seed: 101
+
+model:
+  encoder_hidden_dim: 64
+  token_dim: 96
+  compressed_tokens: 16
+  graph_mode: simple_graph
+  object_slots: 12
+  graph_layers: 1
+  graph_k_nearest: 4
+  graph_edge_dropout: 0.0
+  graph_edge_noise_std: 0.0
+  robustness_dropout: 0.05
+  adaptation_enabled: false
+  adaptation_mode: normalize
+  decoder_hidden_dim: 128
+  decoder_depth: 2
+  object_threshold: 0.45
+  attribute_threshold: 0.45
+  relation_threshold: 0.50
+  output_mode: json
+  constrained_decoding: true
+
+training:
+  epochs: 3
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  relation_loss_weight: 0.5
+  device: auto
+  output_dir: outputs/baseline
+
+ablations:
+  raw_vs_compressed:
+    raw_tokens: 512
+    compressed_tokens: 16
+  graph_modes:
+    no_graph: {graph_mode: no_graph}
+    simple_graph: {graph_mode: simple_graph, graph_layers: 1}
+    richer_graph: {graph_mode: richer_graph, graph_layers: 2, graph_k_nearest: 4}
+    graph_with_relation_dropout: {graph_mode: simple_graph, graph_layers: 1, graph_edge_dropout: 0.25}
+    graph_with_noisy_edges: {graph_mode: simple_graph, graph_layers: 1, graph_edge_noise_std: 0.10}
+  robustness_mechanism:
+    off: {robustness_dropout: 0.0}
+    on: {robustness_dropout: 0.05}
+  adaptation:
+    none: {adaptation_enabled: false}
+    input_normalization: {adaptation_enabled: true, adaptation_mode: normalize}
+    input_denoising: {adaptation_enabled: true, adaptation_mode: denoise}
+  decoder_sizes:
+    small: {decoder_hidden_dim: 64, decoder_depth: 1}
+    large: {decoder_hidden_dim: 192, decoder_depth: 3}
+  constrained_decoding: [true, false]
+  output_modes:
+    structured_decoder: json
+    free_form_text_decoder: text
+  corruption_families:
+    geometry_only:
+      geometry_degradation: {enabled: true, severity: severe}
+      coordinate_perturbation: {enabled: false, severity: none}
+      local_structural_corruption: {enabled: false, severity: none}
+      token_point_compression: {enabled: false, severity: none}
+    coordinate_only:
+      geometry_degradation: {enabled: false, severity: none}
+      coordinate_perturbation: {enabled: true, severity: severe}
+      local_structural_corruption: {enabled: false, severity: none}
+      token_point_compression: {enabled: false, severity: none}
+    local_structure_only:
+      geometry_degradation: {enabled: false, severity: none}
+      coordinate_perturbation: {enabled: false, severity: none}
+      local_structural_corruption: {enabled: true, severity: severe}
+      token_point_compression: {enabled: false, severity: none}
+    compression_only:
+      geometry_degradation: {enabled: false, severity: none}
+      coordinate_perturbation: {enabled: false, severity: none}
+      local_structural_corruption: {enabled: false, severity: none}
+      token_point_compression: {enabled: true, severity: severe}

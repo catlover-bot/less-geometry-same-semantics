@@ -1,0 +1,36 @@
+[
+  {
+    "scene_id": "41069021",
+    "output": {
+      "objects": [
+        {"category": "chair", "count": 2, "attributes": ["small"]},
+        {"category": "table", "count": 1, "attributes": ["flat"]}
+      ],
+      "object_counts": {"chair": 2, "table": 1},
+      "attributes": ["small", "flat"],
+      "relations": [
+        {"subject": "chair", "predicate": "near", "object": "table"}
+      ],
+      "scene_type": "room",
+      "caption": "Two chairs near a table."
+    },
+    "raw_output_path": "server_outputs/41069021.json"
+  },
+  {
+    "scene_id": "41069025",
+    "output": {
+      "objects": [
+        {"category": "cabinet", "count": 1, "attributes": ["large", "tall"]},
+        {"category": "plant", "count": 1, "attributes": ["small"]}
+      ],
+      "object_counts": {"cabinet": 1, "plant": 1},
+      "attributes": ["large", "small", "tall"],
+      "relations": [
+        {"subject": "plant", "predicate": "near", "object": "cabinet"}
+      ],
+      "scene_type": "storage",
+      "caption": "A cabinet with a nearby plant."
+    },
+    "raw_output_path": "server_outputs/41069025.json"
+  }
+]

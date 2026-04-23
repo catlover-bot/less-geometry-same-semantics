@@ -1,0 +1,30 @@
+{
+  "schema_name": "external_baseline_run_metadata",
+  "schema_version": "1.0",
+  "baseline_id": "spatiallm_import",
+  "baseline_label": "SpatialLM imported structured outputs",
+  "kind": "imported_structured",
+  "dataset": "arkitscenes",
+  "split": "Validation",
+  "condition": "clean",
+  "corruption": {
+    "preset": "clean",
+    "severity": "clean"
+  },
+  "export": {
+    "source_system": "university_server",
+    "source_hostname": "gpu-node-01",
+    "source_root": "/srv/exports/spatiallm",
+    "command": "python infer.py --split Validation --condition clean",
+    "created_at_utc": "2026-04-23T12:00:00Z",
+    "code_commit": "abcdef123456",
+    "model_name": "SpatialLM",
+    "notes": "Mapped into shared coarse semantic JSON before export."
+  },
+  "efficiency": {
+    "latency_ms_per_sample": 820.4,
+    "process_memory_mb": 18432.0,
+    "parameter_count": 720000000.0
+  },
+  "notes": "Example metadata fixture for local dry-run ingestion."
+}

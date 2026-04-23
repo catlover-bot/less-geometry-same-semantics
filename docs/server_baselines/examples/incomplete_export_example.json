@@ -1,0 +1,12 @@
+[
+  {
+    "scene_id": "41069021",
+    "output": {
+      "objects": [{"category": "chair", "count": 1, "attributes": []}],
+      "object_counts": {"chair": 1},
+      "attributes": [],
+      "relations": [],
+      "scene_type": "room"
+    }
+  }
+]

@@ -1,0 +1,60 @@
+# CPU-friendly benchmark sweep over corruption severity and random seeds.
+seed: 7
+
+benchmark:
+  name: synthetic_semantic_degradation_benchmark
+  seeds: [7, 13, 29]
+  severity_presets:
+    - clean
+    - mild_corruption
+    - medium_corruption
+    - severe_corruption
+    - extreme_compression
+
+main_experiments:
+  raw_tokens: 256
+
+data:
+  train_samples: 192
+  val_samples: 64
+  num_points: 512
+  synthetic:
+    min_instances: 2
+    max_instances: 5
+    allow_repeated_categories: true
+    scene_extent: 1.0
+    max_relations: 8
+  batch_size: 16
+  num_workers: 0
+  corruption:
+    preset: clean
+    seed: 101
+
+model:
+  encoder_hidden_dim: 64
+  token_dim: 96
+  compressed_tokens: 16
+  graph_mode: simple_graph
+  object_slots: 12
+  graph_layers: 1
+  graph_k_nearest: 4
+  graph_edge_dropout: 0.0
+  graph_edge_noise_std: 0.0
+  robustness_dropout: 0.05
+  adaptation_enabled: false
+  adaptation_mode: normalize
+  decoder_hidden_dim: 128
+  decoder_depth: 2
+  object_threshold: 0.45
+  attribute_threshold: 0.45
+  relation_threshold: 0.50
+  output_mode: json
+  constrained_decoding: true
+
+training:
+  epochs: 1
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  relation_loss_weight: 0.5
+  device: auto
+  output_dir: outputs/benchmark

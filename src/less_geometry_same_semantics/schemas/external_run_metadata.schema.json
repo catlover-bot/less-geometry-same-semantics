@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/less-geometry-same-semantics/external_run_metadata.schema.json",
+  "title": "ExternalBaselineRunMetadata",
+  "description": "Optional sidecar metadata used when canonicalizing external baseline exports.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "schema_version",
+    "baseline_id",
+    "kind",
+    "dataset",
+    "split",
+    "condition"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "external_baseline_run_metadata"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "baseline_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "baseline_label": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["imported_structured", "imported_detector"]
+    },
+    "dataset": {
+      "type": "string",
+      "minLength": 1
+    },
+    "split": {
+      "type": "string",
+      "minLength": 1
+    },
+    "condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "corruption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preset": {"type": "string"},
+        "severity": {"type": "string"},
+        "family": {"type": "string"},
+        "notes": {"type": "string"}
+      }
+    },
+    "export": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_system": {"type": "string"},
+        "source_hostname": {"type": "string"},
+        "source_root": {"type": "string"},
+        "command": {"type": "string"},
+        "created_at_utc": {"type": "string"},
+        "code_commit": {"type": "string"},
+        "model_name": {"type": "string"},
+        "notes": {"type": "string"}
+      }
+    },
+    "efficiency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "latency_ms_per_sample": {"type": "number", "minimum": 0.0},
+        "latency_ms_per_batch": {"type": "number", "minimum": 0.0},
+        "process_memory_mb": {"type": "number", "minimum": 0.0},
+        "input_tensor_memory_mb": {"type": "number", "minimum": 0.0},
+        "parameter_count": {"type": "number", "minimum": 0.0},
+        "compressed_token_budget": {"type": "number", "minimum": 0.0}
+      }
+    },
+    "notes": {"type": "string"}
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schema_name": "external_baseline_run_metadata",
+  "schema_version": "1.0",
+  "baseline_id": "votenet_import",
+  "baseline_label": "VoteNet imported detections",
+  "kind": "imported_detector",
+  "dataset": "arkitscenes",
+  "split": "Validation",
+  "condition": "clean",
+  "corruption": {
+    "preset": "clean",
+    "severity": "clean"
+  },
+  "export": {
+    "source_system": "university_server",
+    "source_hostname": "gpu-node-02",
+    "source_root": "/srv/exports/votenet",
+    "command": "python eval.py --split Validation --condition clean",
+    "created_at_utc": "2026-04-23T12:30:00Z",
+    "code_commit": "123456abcdef",
+    "model_name": "VoteNet"
+  },
+  "efficiency": {
+    "latency_ms_per_sample": 38.6,
+    "process_memory_mb": 2048.0,
+    "parameter_count": 13800000.0
+  },
+  "notes": "Example metadata fixture for detector-style imports."
+}
