@@ -303,10 +303,14 @@ def _canonicalize_prediction_entry(
         return canonical
 
     boxes_key = str(import_config.get("boxes_key", "boxes"))
-    raw_boxes = entry.get(boxes_key) or entry.get("detections") or entry.get("boxes_3d")
-    if not isinstance(raw_boxes, list) or not raw_boxes:
+    raw_boxes = None
+    for candidate_key in (boxes_key, "detections", "boxes_3d"):
+        if candidate_key in entry:
+            raw_boxes = entry.get(candidate_key)
+            break
+    if not isinstance(raw_boxes, list):
         raise ValueError(
-            f"Detector entry '{scene_id}' must contain a non-empty list under '{boxes_key}', 'detections', or 'boxes_3d'."
+            f"Detector entry '{scene_id}' must contain a list under '{boxes_key}', 'detections', or 'boxes_3d'."
         )
     canonical["boxes"] = [_canonicalize_detector_box(box, scene_id=scene_id, index=index) for index, box in enumerate(raw_boxes)]
     return canonical

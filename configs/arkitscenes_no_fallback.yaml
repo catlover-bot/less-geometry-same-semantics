@@ -1,0 +1,58 @@
+seed: 7
+benchmark:
+  name: arkitscenes_graph_bottleneck
+  seeds:
+  - 7
+  - 13
+  - 29
+  severity_presets:
+  - clean
+  - mild_corruption
+  - medium_corruption
+  - severe_corruption
+  - extreme_compression
+main_experiments:
+  raw_tokens: 256
+data:
+  dataset: arkitscenes
+  root: ${ARKITSCENES_ROOT}
+  subset: 3dod
+  cache_dir: outputs/cache/arkitscenes
+  train_split: Training
+  val_split: Validation
+  train_samples: null
+  val_samples: null
+  max_points: 80000
+  batch_size: 1
+  num_workers: 0
+  allow_annotation_point_fallback: false
+  corruption:
+    preset: clean
+    seed: 101
+model:
+  encoder_hidden_dim: 64
+  token_dim: 96
+  compressed_tokens: 32
+  graph_mode: simple_graph
+  object_slots: 24
+  graph_layers: 1
+  graph_k_nearest: 4
+  graph_edge_dropout: 0.0
+  graph_edge_noise_std: 0.0
+  robustness_dropout: 0.05
+  adaptation_enabled: false
+  adaptation_mode: normalize
+  decoder_hidden_dim: 128
+  decoder_depth: 2
+  object_threshold: 0.45
+  attribute_threshold: 0.45
+  relation_threshold: 0.5
+  output_mode: json
+  constrained_decoding: true
+training:
+  epochs: 1
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  relation_loss_weight: 0.5
+  device: auto
+  output_dir: outputs/arkitscenes

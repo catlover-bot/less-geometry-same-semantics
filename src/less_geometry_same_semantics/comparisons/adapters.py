@@ -80,7 +80,11 @@ def convert_prediction_entry(
     if kind == "imported_detector":
         container = entry.get("prediction") if isinstance(entry.get("prediction"), dict) else entry
         boxes_key = str(import_config.get("boxes_key", "boxes"))
-        boxes = container.get(boxes_key) or container.get("detections") or container.get("boxes_3d")
+        boxes = None
+        for candidate_key in (boxes_key, "detections", "boxes_3d"):
+            if candidate_key in container:
+                boxes = container.get(candidate_key)
+                break
         if not isinstance(boxes, list):
             raise ValueError(f"Detector prediction for scene '{scene_id}' is missing a list of 3D boxes.")
         score_threshold = float(import_config.get("score_threshold", 0.0))
