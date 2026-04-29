@@ -110,8 +110,8 @@ def validate_external_manifest(
                 raise ValueError(f"Structured manifest entry '{scene_id}' has invalid shared-schema prediction: {exc}") from exc
         elif kind == "imported_detector":
             boxes = entry.get("boxes")
-            if not isinstance(boxes, list) or not boxes:
-                raise ValueError(f"Detector manifest entry '{scene_id}' must provide a non-empty 'boxes' list.")
+            if not isinstance(boxes, list):
+                raise ValueError(f"Detector manifest entry '{scene_id}' must provide a 'boxes' list.")
     return payload
 
 

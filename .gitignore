@@ -11,3 +11,35 @@ outputs/*
 *.pt
 *.pth
 *.ckpt
+
+# Local datasets / caches
+/cl/
+ARKitScenes/
+hf_cache/
+*.ply
+*.npy
+*.npz
+*.pt
+*.pth
+*.tar
+*.safetensors
+
+# Python / env
+__pycache__/
+*.pyc
+.venv/
+.env/
+.ipynb_checkpoints/
+
+# Generated heavy outputs
+outputs/cache/
+outputs/external_baselines/spatiallm/raw_clean/
+outputs/external_baselines/spatiallm/raw_severe/
+outputs/external_baselines/spatiallm/raw_all_clean_probe/
+outputs/external_baselines/spatiallm/severe_ply/
+outputs/external_baselines/spatiallm/latency_probe_outputs/
+outputs/external_baselines/votenet/raw_clean/
+outputs/external_baselines/votenet/raw_severe/
+outputs/external_baselines/votenet/json_clean/
+outputs/external_baselines/votenet/json_severe/
+outputs/archive/

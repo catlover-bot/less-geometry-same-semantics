@@ -33,7 +33,10 @@
     },
     "kind": {
       "type": "string",
-      "enum": ["imported_structured", "imported_detector"]
+      "enum": [
+        "imported_structured",
+        "imported_detector"
+      ]
     },
     "dataset": {
       "type": "string",
@@ -51,36 +54,78 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "preset": {"type": "string"},
-        "severity": {"type": "string"},
-        "family": {"type": "string"},
-        "notes": {"type": "string"}
+        "preset": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "export": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "source_system": {"type": "string"},
-        "source_hostname": {"type": "string"},
-        "source_root": {"type": "string"},
-        "command": {"type": "string"},
-        "created_at_utc": {"type": "string"},
-        "code_commit": {"type": "string"},
-        "model_name": {"type": "string"},
-        "notes": {"type": "string"}
+        "source_system": {
+          "type": "string"
+        },
+        "source_hostname": {
+          "type": "string"
+        },
+        "source_root": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        },
+        "created_at_utc": {
+          "type": "string"
+        },
+        "code_commit": {
+          "type": "string"
+        },
+        "model_name": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "efficiency": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "latency_ms_per_sample": {"type": "number", "minimum": 0.0},
-        "latency_ms_per_batch": {"type": "number", "minimum": 0.0},
-        "process_memory_mb": {"type": "number", "minimum": 0.0},
-        "input_tensor_memory_mb": {"type": "number", "minimum": 0.0},
-        "parameter_count": {"type": "number", "minimum": 0.0},
-        "compressed_token_budget": {"type": "number", "minimum": 0.0}
+        "latency_ms_per_sample": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "latency_ms_per_batch": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "process_memory_mb": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "input_tensor_memory_mb": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "parameter_count": {
+          "type": "number",
+          "minimum": 0.0
+        },
+        "compressed_token_budget": {
+          "type": "number",
+          "minimum": 0.0
+        }
       }
     },
     "notes": {
@@ -89,7 +134,9 @@
     "predictions": {
       "type": "array",
       "minItems": 1,
-      "items": {"$ref": "#/$defs/prediction_entry"}
+      "items": {
+        "$ref": "#/$defs/prediction_entry"
+      }
     }
   },
   "$defs": {
@@ -97,25 +144,46 @@
       "type": "array",
       "minItems": 3,
       "maxItems": 3,
-      "items": {"type": "number"}
+      "items": {
+        "type": "number"
+      }
     },
     "detector_box": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["label", "center", "dimensions"],
+      "required": [
+        "label",
+        "center",
+        "dimensions"
+      ],
       "properties": {
-        "label": {"type": "string", "minLength": 1},
-        "center": {"$ref": "#/$defs/vector3"},
-        "dimensions": {"$ref": "#/$defs/vector3"},
-        "score": {"type": "number"},
-        "instance_id": {"type": "string"},
-        "metadata": {"type": "object"}
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "center": {
+          "$ref": "#/$defs/vector3"
+        },
+        "dimensions": {
+          "$ref": "#/$defs/vector3"
+        },
+        "score": {
+          "type": "number"
+        },
+        "instance_id": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        }
       }
     },
     "prediction_entry": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scene_id"],
+      "required": [
+        "scene_id"
+      ],
       "properties": {
         "scene_id": {
           "type": "string",
@@ -126,17 +194,35 @@
         },
         "boxes": {
           "type": "array",
-          "minItems": 1,
-          "items": {"$ref": "#/$defs/detector_box"}
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/detector_box"
+          }
         },
-        "split": {"type": "string"},
-        "condition": {"type": "string"},
-        "raw_output_path": {"type": "string"},
-        "metadata": {"type": "object"}
+        "split": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "raw_output_path": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        }
       },
       "anyOf": [
-        {"required": ["prediction"]},
-        {"required": ["boxes"]}
+        {
+          "required": [
+            "prediction"
+          ]
+        },
+        {
+          "required": [
+            "boxes"
+          ]
+        }
       ]
     }
   }

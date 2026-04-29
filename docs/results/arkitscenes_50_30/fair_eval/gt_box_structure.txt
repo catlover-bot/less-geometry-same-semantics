@@ -1,0 +1,13 @@
+annotation: /cl/work11/hirotaka-m/ARKitScenes/3dod/Validation/41069021/41069021_3dod_annotation.json
+num boxes: 18
+first box keys: dict_keys(['raw_label', 'category', 'instance_id', 'center', 'dims', 'min', 'max', 'attributes'])
+{
+  "raw_label": "sofa",
+  "category": "sofa",
+  "instance_id": "mPJvI0Pxiil86iIa",
+  "center": "tensor([-0.3990,  1.6182, -0.1919])",
+  "dims": "tensor([0.9191, 1.6643, 0.8351])",
+  "min": "tensor([-0.8586,  0.7861, -0.6094])",
+  "max": "tensor([0.0605, 2.4503, 0.2256])",
+  "attributes": []
+}
